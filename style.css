@@ -340,6 +340,34 @@ select#level-dial:focus-visible { outline: 3px solid var(--focus); outline-offse
 
 .print-only { display: none; }
 
+.tracking-sheet {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  gap: 0.6rem;
+  margin: 1rem 0 1.5rem;
+  padding: 1rem;
+  background: rgba(255,255,255,0.25);
+  border: 1px dashed var(--gold);
+}
+
+.tick-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  font-family: 'IM Fell English SC', serif;
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+}
+
+.tick-box input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--oxblood);
+  cursor: pointer;
+}
+
 footer.page-footer {
   margin-top: 2.5rem;
   text-align: center;

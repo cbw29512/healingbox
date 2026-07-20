@@ -150,6 +150,25 @@ function ordinalSuffix(n) {
   return 'th';
 }
 
+function renderTrackingSheet(level, edition) {
+  const result = computeBox(level, edition === '2024' ? 2024 : 2014);
+  const container = document.getElementById('tracking-sheet');
+  container.innerHTML = '';
+  for (let i = 1; i <= result.totalPotions; i++) {
+    const item = document.createElement('label');
+    item.className = 'tick-box';
+    item.innerHTML = `<input type="checkbox"><span>${i}</span>`;
+    container.appendChild(item);
+  }
+  document.getElementById('tracking-total').textContent = result.totalPotions;
+}
+
+function resetTrackingSheet() {
+  document.querySelectorAll('#tracking-sheet input[type="checkbox"]').forEach(box => {
+    box.checked = false;
+  });
+}
+
 let currentEdition = '2014';
 
 function update() {
@@ -159,6 +178,7 @@ function update() {
   scrollCostNote(level);
   document.getElementById('level-readout').textContent = level;
   renderFullTable(currentEdition, level);
+  renderTrackingSheet(level, currentEdition);
 }
 
 function setEdition(edition) {
@@ -177,5 +197,7 @@ window.addEventListener('DOMContentLoaded', () => {
     tab.addEventListener('click', () => setEdition(tab.dataset.edition));
   });
   document.getElementById('print-btn').addEventListener('click', () => window.print());
+  const resetBtn = document.getElementById('reset-tracker-btn');
+  if (resetBtn) resetBtn.addEventListener('click', resetTrackingSheet);
   setEdition('2014');
 });
