@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cleric in a Box — Magic Item Reference</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="ribbon-rail" role="group" aria-label="Rules edition">
+    <button class="ribbon-tab" data-edition="2014">Original<br>Rules (2014)</button>
+    <button class="ribbon-tab" data-edition="2024">Revised<br>Rules (2024)</button>
+  </div>
+
+  <p class="eyebrow">Wondrous Item &nbsp;·&nbsp; Very Rare &nbsp;·&nbsp; No Attunement Required</p>
+
+  <svg class="item-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="18" y="38" width="64" height="46" fill="none" stroke="#2a1d12" stroke-width="2.5"/>
+    <path d="M18 38 L28 20 L72 20 L82 38 Z" fill="none" stroke="#2a1d12" stroke-width="2.5"/>
+    <line x1="18" y1="38" x2="82" y2="38" stroke="#2a1d12" stroke-width="2.5"/>
+    <circle cx="50" cy="58" r="11" fill="none" stroke="#6e1f1f" stroke-width="2"/>
+    <line x1="50" y1="51" x2="50" y2="65" stroke="#6e1f1f" stroke-width="2"/>
+    <line x1="43" y1="58" x2="57" y2="58" stroke="#6e1f1f" stroke-width="2"/>
+    <path d="M28 20 L34 8 M72 20 L66 8" stroke="#8a6a24" stroke-width="2" stroke-dasharray="3 3"/>
+  </svg>
+
+  <h1 class="title">Cleric in a Box</h1>
+  <p class="subtitle">A gift from the divine, for the party too stubborn to keep a healer at the table.</p>
+
+  <p class="stat-line"><strong>Type:</strong> a reinforced field chest, roughly the size of a modified bag of holding<br>
+  <strong>Origin:</strong> bestowed directly by the campaign's highest deity<br>
+  <strong>Durability:</strong> cannot be damaged, destroyed, stolen, opened, or countered by anyone but its divine giver</p>
+
+  <hr class="divider">
+
+  <p class="flavor drop-cap">The box arrived without a note. It only ever needed one line, and the deity never bothered to write it: <em>you will not lose a party to an empty healer's chair again.</em></p>
+
+  <h2 class="section-title">What It Does</h2>
+  <ul class="rules-list">
+    <li><strong>On combat start,</strong> the box falls to the ground and springs open on its own — no action required from anyone.</li>
+    <li><strong>When a player drops low,</strong> the box hits them with a healing potion as a free action. No roll, no cost, no one's turn spent.</li>
+    <li><strong>If the party needs a specific cleric spell</strong> instead of raw healing, the box produces the scroll and reads it aloud itself — see the cost note below the dial.</li>
+    <li><strong>On a long rest,</strong> the box's daily allowance refreshes completely, same as a cleric regaining spell slots. A rest of at least 4 hours works if anyone in the party can rest faster; otherwise the usual 8 hours applies.</li>
+    <li><strong>Nothing players or monsters do can affect the box</strong> — not the potions inside it, not its healing math, not its ability to keep functioning. Only its divine giver can alter or revoke it.</li>
+  </ul>
+
+  <h2 class="section-title">Set the Party's Level</h2>
+  <p>The box's healer is exactly as strong as your table needs. Turn the dial to your party's average level and the current rules edition to see today's healing allowance.</p>
+
+  <div class="dial-frame">
+    <label class="dial-label" for="level-dial">Average party level</label>
+    <div class="dial-row">
+      <select id="level-dial">
+        <!-- populated 1-20 -->
+      </select>
+      <span class="dial-readout">Level <span id="level-readout">1</span></span>
+      <span class="dial-readout" id="edition-readout" style="font-size:1rem;"></span>
+    </div>
+  </div>
+
+  <div class="results-grid">
+    <div class="result-card">
+      <span class="result-number" id="potion-count">–</span>
+      <span class="result-label">Potions per day</span>
+    </div>
+    <div class="result-card">
+      <span class="result-number" id="potion-size">–</span>
+      <span class="result-label">Avg. HP per potion</span>
+    </div>
+    <div class="result-card">
+      <span class="result-number" id="pool-total">–</span>
+      <span class="result-label">Total HP pool / day</span>
+    </div>
+  </div>
+
+  <details class="breakdown-box">
+    <summary>Show the underlying slot-by-slot math</summary>
+    <ul id="breakdown-list"></ul>
+    <p class="note">The box is modeled as a cleric of this level who spends every spell slot on the strongest single-target healing available (Cure Wounds, upgrading to Heal at 6th-level slots and above), then smooths that day's total into equal-sized potions.</p>
+  </details>
+
+  <p class="note" id="scroll-cost-note"></p>
+
+  <h2 class="section-title">Assumptions Baked Into the Math</h2>
+  <ul class="rules-list">
+    <li>Spellcasting modifier assumed: +3 at levels 1–3, +4 at levels 4–7, +5 at levels 8 and up (typical Wisdom progression with two ASIs invested).</li>
+    <li>2014 rules: Cure Wounds/Healing Word use 1d8 (or 1d4) per spell level. 2024 rules: dice are doubled per the revised Player's Handbook.</li>
+    <li>6th-level slots and higher are spent on Heal (70 hp + 10 per slot level above 6th) rather than an upcast Cure Wounds, since it's strictly better.</li>
+    <li>A drawn scroll costs a number of potions equal to that spell's level — a homebrew conversion, not official rules text. Adjust <code>ASSUMPTIONS</code> in <code>script.js</code> if your table wants different numbers.</li>
+  </ul>
+
+  <footer class="page-footer">Homebrew magic item · for personal table use</footer>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+  const dial = document.getElementById('level-dial');
+  for (let i = 1; i <= 20; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `Level ${i}`;
+    dial.appendChild(opt);
+  }
+</script>
+</body>
+</html>
