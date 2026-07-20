@@ -51,6 +51,13 @@ const ASSUMPTIONS = {
   healPerSlotAboveSix: 10,
 };
 
+function maxSlotLevel(charLevel) {
+  const slots = ASSUMPTIONS.slotTable[charLevel];
+  let max = 0;
+  slots.forEach((count, idx) => { if (count > 0) max = idx + 1; });
+  return max;
+}
+
 function healingForSlot(slotLevel, charLevel, edition) {
   const mod = ASSUMPTIONS.modByLevel(charLevel);
   if (slotLevel >= 6) {
@@ -114,6 +121,35 @@ function scrollCostNote(level) {
   el.textContent = `At party level ${level}, drawing a specific spell scroll costs a number of potions equal to that spell's level (e.g. a 3rd-level spell scroll costs 3 potions from the day's allowance).`;
 }
 
+function renderFullTable(edition, currentLevel) {
+  const tbody = document.getElementById('full-table-body');
+  tbody.innerHTML = '';
+  for (let level = 1; level <= 20; level++) {
+    const result = computeBox(level, edition === '2024' ? 2024 : 2014);
+    const topScroll = maxSlotLevel(level);
+    const tr = document.createElement('tr');
+    if (level === currentLevel) tr.classList.add('current-level');
+    tr.innerHTML = `
+      <td>${level}</td>
+      <td>${result.totalPotions}</td>
+      <td>${result.potionSize} hp</td>
+      <td>${result.totalHealing} hp</td>
+      <td>${topScroll}${ordinalSuffix(topScroll)} level</td>
+    `;
+    tbody.appendChild(tr);
+  }
+  document.getElementById('print-edition-label').textContent =
+    edition === '2024' ? 'Revised Rules (2024)' : 'Original Rules (2014)';
+  document.getElementById('print-level-label').textContent = currentLevel;
+}
+
+function ordinalSuffix(n) {
+  if (n === 1) return 'st';
+  if (n === 2) return 'nd';
+  if (n === 3) return 'rd';
+  return 'th';
+}
+
 let currentEdition = '2014';
 
 function update() {
@@ -122,6 +158,7 @@ function update() {
   renderResults(result);
   scrollCostNote(level);
   document.getElementById('level-readout').textContent = level;
+  renderFullTable(currentEdition, level);
 }
 
 function setEdition(edition) {
@@ -139,5 +176,6 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.ribbon-tab').forEach(tab => {
     tab.addEventListener('click', () => setEdition(tab.dataset.edition));
   });
+  document.getElementById('print-btn').addEventListener('click', () => window.print());
   setEdition('2014');
 });

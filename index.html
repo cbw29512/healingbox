@@ -10,14 +10,14 @@
 
 <div class="page">
 
-  <div class="ribbon-rail" role="group" aria-label="Rules edition">
+  <div class="ribbon-rail hide-print" role="group" aria-label="Rules edition">
     <button class="ribbon-tab" data-edition="2014">Original<br>Rules (2014)</button>
     <button class="ribbon-tab" data-edition="2024">Revised<br>Rules (2024)</button>
   </div>
 
-  <p class="eyebrow">Wondrous Item &nbsp;·&nbsp; Very Rare &nbsp;·&nbsp; No Attunement Required</p>
+  <p class="eyebrow hide-print">Wondrous Item &nbsp;·&nbsp; Very Rare &nbsp;·&nbsp; No Attunement Required</p>
 
-  <svg class="item-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <svg class="item-icon hide-print" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <rect x="18" y="38" width="64" height="46" fill="none" stroke="#2a1d12" stroke-width="2.5"/>
     <path d="M18 38 L28 20 L72 20 L82 38 Z" fill="none" stroke="#2a1d12" stroke-width="2.5"/>
     <line x1="18" y1="38" x2="82" y2="38" stroke="#2a1d12" stroke-width="2.5"/>
@@ -28,16 +28,17 @@
   </svg>
 
   <h1 class="title">Cleric in a Box</h1>
-  <p class="subtitle">A gift from the divine, for the party too stubborn to keep a healer at the table.</p>
+  <p class="subtitle hide-print">A gift from the divine, for the party too stubborn to keep a healer at the table.</p>
 
-  <p class="stat-line"><strong>Type:</strong> a reinforced field chest, roughly the size of a modified bag of holding<br>
+  <p class="stat-line hide-print"><strong>Type:</strong> a reinforced field chest, roughly the size of a modified bag of holding<br>
   <strong>Origin:</strong> bestowed directly by the campaign's highest deity<br>
   <strong>Durability:</strong> cannot be damaged, destroyed, stolen, opened, or countered by anyone but its divine giver</p>
 
   <hr class="divider">
 
-  <p class="flavor drop-cap">The box arrived without a note. It only ever needed one line, and the deity never bothered to write it: <em>you will not lose a party to an empty healer's chair again.</em></p>
+  <p class="flavor drop-cap hide-print">The box arrived without a note. It only ever needed one line, and the deity never bothered to write it: <em>you will not lose a party to an empty healer's chair again.</em></p>
 
+  <div class="hide-print">
   <h2 class="section-title">What It Does</h2>
   <ul class="rules-list">
     <li><strong>On combat start,</strong> the box falls to the ground and springs open on its own — no action required from anyone.</li>
@@ -46,11 +47,14 @@
     <li><strong>On a long rest,</strong> the box's daily allowance refreshes completely, same as a cleric regaining spell slots. A rest of at least 4 hours works if anyone in the party can rest faster; otherwise the usual 8 hours applies.</li>
     <li><strong>Nothing players or monsters do can affect the box</strong> — not the potions inside it, not its healing math, not its ability to keep functioning. Only its divine giver can alter or revoke it.</li>
   </ul>
+  </div>
 
+  <div class="hide-print">
   <h2 class="section-title">Set the Party's Level</h2>
   <p>The box's healer is exactly as strong as your table needs. Turn the dial to your party's average level and the current rules edition to see today's healing allowance.</p>
+  </div>
 
-  <div class="dial-frame">
+  <div class="dial-frame hide-print">
     <label class="dial-label" for="level-dial">Average party level</label>
     <div class="dial-row">
       <select id="level-dial">
@@ -61,7 +65,7 @@
     </div>
   </div>
 
-  <div class="results-grid">
+  <div class="results-grid hide-print">
     <div class="result-card">
       <span class="result-number" id="potion-count">–</span>
       <span class="result-label">Potions per day</span>
@@ -76,14 +80,42 @@
     </div>
   </div>
 
-  <details class="breakdown-box">
+  <details class="breakdown-box hide-print">
     <summary>Show the underlying slot-by-slot math</summary>
     <ul id="breakdown-list"></ul>
     <p class="note">The box is modeled as a cleric of this level who spends every spell slot on the strongest single-target healing available (Cure Wounds, upgrading to Heal at 6th-level slots and above), then smooths that day's total into equal-sized potions.</p>
   </details>
 
-  <p class="note" id="scroll-cost-note"></p>
+  <p class="note hide-print" id="scroll-cost-note"></p>
 
+  <h2 class="section-title">Full Reference Table (Levels 1–20)</h2>
+
+  <div class="print-only">
+    <p><strong>Cleric in a Box — Healing &amp; Scroll Reference</strong><br>
+    Ruleset: <span id="print-edition-label"></span> &nbsp;·&nbsp; Party level: <span id="print-level-label"></span> (highlighted row)<br>
+    A drawn scroll costs potions equal to its own spell level.</p>
+  </div>
+
+  <p>Your current level is highlighted below. Highest-level scroll is the strongest spell the box can draw at that level — remember a scroll costs potions equal to its own spell level.</p>
+
+  <button class="print-btn hide-print" id="print-btn">🖨 Print / Save as PDF</button>
+
+  <div class="table-scroll">
+    <table id="full-table">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Potions / day</th>
+          <th>Avg HP / potion</th>
+          <th>Total HP pool</th>
+          <th>Highest scroll</th>
+        </tr>
+      </thead>
+      <tbody id="full-table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="hide-print">
   <h2 class="section-title">Assumptions Baked Into the Math</h2>
   <ul class="rules-list">
     <li>Spellcasting modifier assumed: +3 at levels 1–3, +4 at levels 4–7, +5 at levels 8 and up (typical Wisdom progression with two ASIs invested).</li>
@@ -91,8 +123,9 @@
     <li>6th-level slots and higher are spent on Heal (70 hp + 10 per slot level above 6th) rather than an upcast Cure Wounds, since it's strictly better.</li>
     <li>A drawn scroll costs a number of potions equal to that spell's level — a homebrew conversion, not official rules text. Adjust <code>ASSUMPTIONS</code> in <code>script.js</code> if your table wants different numbers.</li>
   </ul>
+  </div>
 
-  <footer class="page-footer">Homebrew magic item · for personal table use</footer>
+  <footer class="page-footer hide-print">Homebrew magic item · for personal table use</footer>
 
 </div>
 

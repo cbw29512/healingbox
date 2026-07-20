@@ -296,10 +296,71 @@ select#level-dial:focus-visible { outline: 3px solid var(--focus); outline-offse
   margin-top: 0.8rem;
 }
 
+/* --- Full reference table --- */
+.print-btn {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 0.95rem;
+  background: var(--oxblood);
+  color: var(--parchment);
+  border: 1px solid var(--gold);
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.print-btn:hover { background: var(--oxblood-dark); }
+.print-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+.table-scroll { overflow-x: auto; margin-bottom: 1rem; }
+
+#full-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+#full-table th, #full-table td {
+  border: 1px solid var(--gold);
+  padding: 0.45rem 0.6rem;
+  text-align: center;
+}
+
+#full-table thead th {
+  font-family: 'IM Fell English SC', serif;
+  background: var(--parchment-dark);
+  color: var(--ink);
+}
+
+#full-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.25); }
+
+#full-table tr.current-level {
+  background: var(--gold-bright);
+  font-weight: bold;
+}
+
+.print-only { display: none; }
+
 footer.page-footer {
   margin-top: 2.5rem;
   text-align: center;
   font-family: 'IM Fell English SC', serif;
   font-size: 0.8rem;
   color: var(--ink-faded);
+}
+
+/* --- Print output: a clean handout, not the whole page chrome --- */
+@media print {
+  body { padding: 0; background: white; }
+  .page {
+    box-shadow: none;
+    border: none;
+    padding: 0.5cm;
+    max-width: none;
+  }
+  .hide-print { display: none !important; }
+  .print-only { display: block; margin-bottom: 0.8rem; }
+  h1.title { font-size: 1.6rem; margin-bottom: 0.2rem; }
+  #full-table { font-size: 0.85rem; }
+  #full-table tr.current-level { background: #ddd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #full-table thead th { background: #eee !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
