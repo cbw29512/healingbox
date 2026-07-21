@@ -10,7 +10,7 @@ const scriptPath = join(root, 'app-v3.js');
 const script = readFileSync(scriptPath, 'utf8');
 
 test('active application modules parse successfully', () => {
-  for (const file of ['app-v3.js', 'rules-data.js']) {
+  for (const file of ['app-v3.js', 'rules-data.js', 'dmforge-adapter.js']) {
     const result = spawnSync(process.execPath, ['--check', join(root, file)], { encoding: 'utf8' });
     assert.equal(result.status, 0, result.stderr || result.stdout);
   }
@@ -34,11 +34,21 @@ test('remote clients can use charges but cannot submit administrative actions', 
   assert.match(script, /source === 'remote' && !PLAYER_ACTIONS\.has\(action\.type\)/);
 });
 
-test('primary local assets exist and the page launches the versioned app', () => {
+test('primary assets exist and the page launches the versioned shared-campaign app', () => {
   const html = readFileSync(join(root, 'index.html'), 'utf8');
-  for (const asset of ['style.css', 'app-v3.js', 'rules-data.js']) {
+  for (const asset of ['style.css', 'app-v3.js', 'rules-data.js', 'dmforge-adapter.js', 'dmforge-adapter.css']) {
     assert.equal(existsSync(join(root, asset)), true, `Missing ${asset}`);
   }
   assert.equal(html.includes('type="module" src="app-v3.js"'), true);
+  assert.equal(html.includes('src="/monstercardforge/shared/dmforge-store.js"'), true);
+  assert.equal(html.includes('src="dmforge-adapter.js"'), true);
   assert.equal(html.includes('id="settingsDialog"'), true);
+});
+
+test('Campaign Hub synchronization exposes only room summaries', () => {
+  const adapter = readFileSync(join(root, 'dmforge-adapter.js'), 'utf8');
+  assert.equal(adapter.includes('syncHealingRoom'), true);
+  assert.equal(adapter.includes('remainingCharges'), false);
+  assert.equal(adapter.includes('roomState.log'), false);
+  assert.equal(adapter.includes('roomState.deity'), false);
 });
