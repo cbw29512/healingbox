@@ -169,7 +169,7 @@ function rollFormula(raw) {
 }
 
 function setupView() {
-  return `<section class="card setup"><div class="tabs"><button class="btn" id="newTab">Create Party</button><button class="btn blue" id="joinTab">Join Party</button></div><div id="newPane"><h2>Bind the Artifact to a Party</h2><div class="form-grid"><label>Campaign<input id="campaign" value="My Campaign"></label><label>Rules<select id="ruleset"><option>2014</option><option>2024</option></select></label><label>Average party level<select id="level">${Array.from({ length: 20 }, (_, index) => `<option>${index + 1}</option>`).join('')}</select></label><label>Granting deity<input id="deity" placeholder="DM-controlled deity"></label><label>Artifact Wisdom modifier<input id="wisdomMod" type="number" min="-5" max="10" value="5"></label><label>Artifact spell save DC<input id="spellSaveDc" type="number" min="1" max="40" value="17"></label><label>Artifact spell attack bonus<input id="spellAttackBonus" type="number" min="-5" max="20" value="9"></label></div><div class="notice">The three artifact spellcasting values are DM-controlled homebrew settings. They are not guessed from party level.</div><button class="btn gold" id="create" style="width:100%;margin-top:14px">Create the Unique Artifact</button></div><div id="joinPane" class="hidden"><h2>Join the Party Box</h2><div class="form-grid"><label>Your name<input id="joinName" placeholder="Player name"></label><label>Room code<input id="joinCode" maxlength="6" autocomplete="off"></label></div><button class="btn blue" id="join" style="width:100%;margin-top:14px">Connect to the Box</button></div><div class="notice">The DM’s browser hosts the shared tracker and must remain open during play.</div></section>`;
+  return `<section class="card setup"><div class="tabs"><button class="btn" id="newTab" type="button">Create Party</button><button class="btn blue" id="joinTab" type="button">Join Party</button></div><div id="newPane"><h2>Bind the Artifact to a Party</h2><div class="form-grid"><label>Campaign<input id="campaign" value="My Campaign"></label><label>Rules<select id="ruleset"><option value="2014">5e (2014)</option><option value="2024">5.5e (2024)</option></select></label><label>Average party level<select id="level">${Array.from({ length: 20 }, (_, index) => `<option>${index + 1}</option>`).join('')}</select></label><label>Granting deity<input id="deity" placeholder="DM-controlled deity"></label><label>Artifact Wisdom modifier<input id="wisdomMod" type="number" min="-5" max="10" value="5"></label><label>Artifact spell save DC<input id="spellSaveDc" type="number" min="1" max="40" value="17"></label><label>Artifact spell attack bonus<input id="spellAttackBonus" type="number" min="-5" max="20" value="9"></label></div><div class="notice">The three artifact spellcasting values are DM-controlled homebrew settings. They are not guessed from party level.</div><button class="btn gold" id="create" type="button" style="width:100%;margin-top:14px">Create the Unique Artifact</button></div><div id="joinPane" class="hidden"><h2>Join the Party Box</h2><div class="form-grid"><label>Your name<input id="joinName" placeholder="Player name"></label><label>Room code<input id="joinCode" maxlength="6" autocomplete="off"></label></div><button class="btn blue" id="join" type="button" style="width:100%;margin-top:14px">Connect to the Box</button></div><div class="notice">The DM’s browser hosts the shared tracker and must remain open during play.</div></section>`;
 }
 
 function inventory() {
@@ -181,13 +181,14 @@ function inventory() {
 function trackerView() {
   const counts = inventory();
   const grouped = {};
+  const rulesLabel = RULES_METADATA[state.ruleset]?.label || `${state.ruleset} rules`;
   state.charges.forEach((charge) => { (grouped[charge.level] ??= []).push(charge); });
-  return `<div class="topbar"><div><h2 style="margin-bottom:.2rem">${esc(state.campaign)}</h2><div>${state.ruleset} rules · Average party level ${state.level}</div><div class="artifact-stats">Artifact WIS ${signed(state.wisdomMod)} · Save DC ${state.spellSaveDc} · Spell attack ${signed(state.spellAttackBonus)}</div></div><div class="room no-print"><span class="room-code">${roomCode}</span><button class="btn ghost" data-copy>Copy player link</button>${isHost ? '<button class="btn ghost" data-settings>Artifact Settings</button><button class="btn gold" data-rest>Long Rest Reset</button>' : ''}</div></div><section class="summary-grid">${Object.entries(POTIONS).map(([key, potion]) => `<div class="summary"><span>${potion.name}</span><strong>${counts[key]}</strong><small>${potion.formula}</small></div>`).join('')}</section>${Object.entries(grouped).map(([level, charges]) => `<section class="level-group"><div class="level-title"><h2>${ordinal(level)}-Level Divine Charges</h2><span>${charges.filter((charge) => !charge.spent).length} remaining</span></div><div class="charge-grid">${charges.map(chargeCard).join('')}</div></section>`).join('')}<section class="card history"><h2>Adventuring-Day History</h2><ul class="log">${state.log.length ? state.log.slice().reverse().map((item) => `<li><time>${new Date(item.time).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</time><br>${esc(item.text)}</li>`).join('') : '<li class="empty">Nothing has been used yet.</li>'}</ul>${isHost && state.log.length ? '<button class="btn ghost no-print" data-undo>Undo Last Use</button>' : ''}</section><div class="artifact-law"><b>Unique Artifact.</b> The box is semi-sentient and reads its own scrolls as a free action. It cannot be stolen, destroyed, suppressed, banished, or separated from the party. Only the specific deity that granted it—controlled by the DM—can affect it.</div>`;
+  return `<div class="topbar"><div><h2 style="margin-bottom:.2rem">${esc(state.campaign)}</h2><div>${esc(rulesLabel)} · Average party level ${state.level}</div><div class="artifact-stats">Artifact WIS ${signed(state.wisdomMod)} · Save DC ${state.spellSaveDc} · Spell attack ${signed(state.spellAttackBonus)}</div></div><div class="room no-print"><span class="room-code">${roomCode}</span><button class="btn ghost" data-copy type="button">Copy player link</button>${isHost ? '<button class="btn ghost" data-settings type="button">Artifact Settings</button><button class="btn gold" data-rest type="button">Long Rest Reset</button>' : ''}</div></div><section class="summary-grid">${Object.entries(POTIONS).map(([key, potion]) => `<div class="summary"><span>${potion.name}</span><strong>${counts[key]}</strong><small>${potion.formula}</small></div>`).join('')}</section>${Object.entries(grouped).map(([level, charges]) => `<section class="level-group"><div class="level-title"><h2>${ordinal(level)}-Level Divine Charges</h2><span>${charges.filter((charge) => !charge.spent).length} remaining</span></div><div class="charge-grid">${charges.map(chargeCard).join('')}</div></section>`).join('')}<section class="card history"><h2>Adventuring-Day History</h2><ul class="log">${state.log.length ? state.log.slice().reverse().map((item) => `<li><time>${new Date(item.time).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</time><br>${esc(item.text)}</li>`).join('') : '<li class="empty">Nothing has been used yet.</li>'}</ul>${isHost && state.log.length ? '<button class="btn ghost no-print" data-undo type="button">Undo Last Use</button>' : ''}</section><div class="artifact-law"><b>Unique Artifact · Campaign Rule.</b> The box is semi-sentient and reads its own scrolls as a free action. It cannot be stolen, destroyed, suppressed, banished, or separated from the party. Only the specific deity that granted it—controlled by the DM—can affect it.</div>`;
 }
 
 function chargeCard(charge) {
   const potion = POTIONS[charge.potion];
-  return `<article class="charge-card ${charge.spent ? 'used' : ''}"><h3>${ordinal(charge.level)}-Level Charge ${charge.number}</h3><div class="charge-meta"><span class="badge">${potion.name}</span><span class="badge">${potion.formula}</span></div>${charge.spent ? `<div class="charge-result">USED<br>${esc(charge.result || 'Charge spent')}</div>` : `<div class="actions no-print"><button class="btn" data-heal="${charge.id}">Roll Healing</button><button class="btn blue" data-scroll="${charge.id}">Choose Scroll</button></div>`}</article>`;
+  return `<article class="charge-card ${charge.spent ? 'used' : ''}"><h3>${ordinal(charge.level)}-Level Charge ${charge.number}</h3><div class="charge-meta"><span class="badge">${potion.name}</span><span class="badge">${potion.formula}</span></div>${charge.spent ? `<div class="charge-result">USED<br>${esc(charge.result || 'Charge spent')}</div>` : `<div class="actions no-print"><button class="btn" data-heal="${charge.id}" type="button">Roll Healing</button><button class="btn blue" data-scroll="${charge.id}" type="button">Choose Scroll</button></div>`}</article>`;
 }
 
 function render() {
@@ -344,22 +345,25 @@ function spellEffect(spell) {
   const suffix = state.ruleset === 2024 ? '2024' : '2014';
   const formula = effect.formula || effect[`f${suffix}`];
   const note = effect[`note${suffix}`] || effect.note;
-  return { ...effect, formula, note };
+  const resolution = effect[`resolution${suffix}`] || effect.resolution || '';
+  const concentration = effect[`concentration${suffix}`] ?? effect.concentration ?? false;
+  return { ...effect, formula, note, resolution, concentration };
 }
 
 function resolutionText(effect) {
-  if (effect.resolution === 'spell attack') return `Spell attack ${signed(state.spellAttackBonus)}.`;
-  if (effect.kind === 'damage') return `Use artifact save DC ${state.spellSaveDc} when the spell calls for a save.`;
-  return '';
+  if (!effect.resolution) return '';
+  if (effect.resolution.includes('spell attack')) return `${effect.resolution[0].toUpperCase()}${effect.resolution.slice(1)} ${signed(state.spellAttackBonus)}.`;
+  if (effect.resolution.includes('saving throw')) return `${effect.resolution[0].toUpperCase()}${effect.resolution.slice(1)} against artifact save DC ${state.spellSaveDc}.`;
+  return effect.resolution;
 }
 
 function spellPreviewText(spell) {
   if (spell === 'Other Cleric Spell…') return 'Enter the spell name. The box will record it, but no automatic damage or healing roll is available for a custom spell.';
   const effect = spellEffect(spell);
   const resolution = resolutionText(effect);
-  if (effect.kind === 'damage') return `The box will roll ${resolveFormula(effect.formula)} ${effect.note}. ${resolution}`.trim();
-  if (effect.kind === 'healing') return `The box will roll ${resolveFormula(effect.formula)} ${effect.note}.`;
-  if (effect.kind === 'fixed') return `The box will report ${effect.amount} ${effect.note}.`;
+  if (effect.kind === 'damage') return `The box will roll ${resolveFormula(effect.formula)}. ${effect.note}. ${resolution}`.trim();
+  if (effect.kind === 'healing') return `The box will roll ${resolveFormula(effect.formula)}. ${effect.note}.`;
+  if (effect.kind === 'fixed') return `The box will report ${effect.amount}. ${effect.note}.`;
   if (effect.kind === 'full') return `The box will report: ${effect.note}.`;
   return effect.note;
 }
@@ -408,7 +412,7 @@ function useScrollCharge(action, actor) {
     if (effect.note) result += ` (${effect.note})`;
     const resolution = resolutionText(effect);
     if (resolution) result += ` — ${resolution}`;
-  } else if (effect.kind === 'fixed') result = `${action.spell}: ${effect.amount} ${effect.note}`;
+  } else if (effect.kind === 'fixed') result = `${action.spell}: ${effect.amount} — ${effect.note}`;
   else if (effect.kind === 'full') result = `${action.spell}: ${effect.note}`;
   else result = `${action.spell}: ${effect.note || 'No damage or healing roll; resolve normally.'}`;
   if (action.note) result += ` — ${action.note}`;
