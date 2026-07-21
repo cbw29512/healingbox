@@ -4,6 +4,15 @@
   const hubUrl = '/monstercardforge/campaigns.html';
   let lastRoomSnapshot = '';
 
+  function ensureStyles() {
+    if (document.getElementById('dmforgeHealingContextStyles')) return;
+    const link = document.createElement('link');
+    link.id = 'dmforgeHealingContextStyles';
+    link.rel = 'stylesheet';
+    link.href = 'dmforge-adapter.css';
+    document.head.append(link);
+  }
+
   function readRoom(code) {
     try {
       return JSON.parse(root.localStorage?.getItem(`cleric-box-${code}`) || 'null');
@@ -33,6 +42,7 @@
   function renderContext(roomState = null) {
     const store = root.DMForgeStore;
     if (!store) return;
+    ensureStyles();
     let bar = document.getElementById('dmforgeHealingContext');
     if (!bar) {
       bar = document.createElement('section');
