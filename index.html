@@ -1,150 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cleric in a Box — Magic Item Reference</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#351b19">
+<title>Cleric in a Box</title>
+<meta name="description" content="A live multiplayer D&D 5e party HP, healing potion, and cleric scroll tracker.">
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
+<style>
+:root{--ink:#291b14;--muted:#6e5949;--paper:#f3e4bd;--paper2:#e5cf98;--red:#6c231e;--gold:#a67b2c;--green:#32633c;--blue:#294f68;--shadow:0 12px 35px #180d0960}*{box-sizing:border-box}body{margin:0;color:var(--ink);font:16px/1.45 Georgia,serif;background:#281713 radial-gradient(circle at 50% 0,#76543b 0,#281713 65%);min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}.shell{width:min(1180px,100%);margin:auto;min-height:100vh;background:linear-gradient(#f7ebc9f7,#ead5a5f7),repeating-linear-gradient(0deg,#0000 0 22px,#6d4d2a0a 23px);box-shadow:var(--shadow);padding:clamp(14px,3vw,34px)}header{text-align:center;border:2px solid var(--gold);padding:18px;position:relative;background:#fff5d452}h1{font-size:clamp(2.2rem,8vw,5rem);margin:0;letter-spacing:.03em}h1 span{color:var(--red)}.artifact{font-weight:bold;text-transform:uppercase;letter-spacing:.18em;color:var(--red)}.subtitle{margin:.35rem auto;max-width:750px}.status{display:inline-flex;gap:.5rem;align-items:center;margin-top:.5rem;padding:.3rem .75rem;border-radius:999px;background:#fff8dc;border:1px solid #a67b2c}.dot{width:.7rem;height:.7rem;border-radius:50%;background:#888}.dot.online{background:#2d8b45}.dot.waiting{background:#c88d22}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:18px}.card{grid-column:span 12;background:#fff7dcba;border:1px solid #a67b2c;border-radius:10px;padding:18px;box-shadow:0 5px 14px #3a24151f}.card h2,.card h3{margin-top:0}.setup{max-width:800px;margin:24px auto}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:grid;gap:5px;font-weight:bold}input,select{width:100%;padding:.75rem;border:1px solid #8f7040;border-radius:7px;background:#fffdf2;color:var(--ink)}.btn{border:1px solid #4d1c18;border-radius:7px;background:linear-gradient(#8c332c,#5a1c18);color:#fff7df;padding:.75rem 1rem;font-weight:bold;box-shadow:0 3px 0 #35110e}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #35110e}.btn.secondary{background:linear-gradient(#496b79,#294c5c);border-color:#18313c}.btn.gold{background:linear-gradient(#c59a43,#8a6322);border-color:#624514;color:#24170d}.btn.ghost{background:#fff8df;color:var(--ink);border-color:#9e7a3a;box-shadow:none}.btn.danger{background:linear-gradient(#9d3f39,#6b211d)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.mode-tabs{display:flex;gap:10px;margin-bottom:18px}.mode-tabs button{flex:1}.notice{padding:10px;border-left:5px solid var(--gold);background:#fff3c7;margin:12px 0}.room{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.room-code{font:700 1.35rem monospace;letter-spacing:.12em;background:#2d1c17;color:#ffe9ae;padding:.45rem .8rem;border-radius:6px}.party{grid-column:span 8}.box{grid-column:span 4}.history{grid-column:span 12}.character{border:1px solid #b69a61;background:#fffdf1;border-radius:9px;padding:12px;margin:10px 0}.char-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.char-name{font-weight:bold;font-size:1.15rem}.hpbar{height:18px;border:1px solid #684e2d;border-radius:999px;overflow:hidden;background:#d4bca2;margin:.55rem 0}.hpbar span{display:block;height:100%;background:linear-gradient(90deg,#963126,#4c9a49);transition:width .25s}.hp-controls{display:grid;grid-template-columns:1fr auto auto auto auto;gap:7px;align-items:center}.hp-controls input{padding:.45rem}.mini{padding:.42rem .62rem;border-radius:5px;border:1px solid #725122;background:#fff0bd}.inventory{display:grid;gap:9px}.potion{display:grid;grid-template-columns:1fr auto;gap:7px;border-bottom:1px dashed #ad8d52;padding-bottom:8px}.potion b{display:block}.count{font:bold 1.4rem Georgia}.charges{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}.charge{padding:.25rem .5rem;border-radius:5px;background:#eee0b8;border:1px solid #96743b}.charge.spent{opacity:.35;text-decoration:line-through}.log{max-height:390px;overflow:auto;padding:0;list-style:none}.log li{padding:9px;border-bottom:1px solid #c4a66d}.log time{color:var(--muted);font-size:.83rem}.empty{text-align:center;color:var(--muted);font-style:italic}dialog{border:2px solid var(--gold);border-radius:12px;background:var(--paper);color:var(--ink);width:min(650px,94vw);max-height:90vh;overflow:auto;box-shadow:0 20px 60px #0008}dialog::backdrop{background:#160d0abb}.modal-grid{display:grid;gap:12px}.choice{border:1px solid #aa8a4e;border-radius:7px;padding:10px;background:#fff9e4}.targets{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.target-check{display:flex;align-items:center;gap:7px;font-weight:normal}.target-check input{width:auto}.result{font-size:1.15rem;padding:12px;background:#fff7d2;border:1px solid #c29a48}.hidden{display:none!important}.box-art{text-align:center;font-size:5rem;filter:drop-shadow(0 8px 6px #0003)}.artifact-rules{font-size:.9rem;color:#493728;border-top:1px solid #b59150;margin-top:14px;padding-top:12px}.print-only{display:none}@media(max-width:780px){.shell{padding:10px}.grid{display:block}.card{margin:12px 0}.form-grid{grid-template-columns:1fr}.hp-controls{grid-template-columns:1fr repeat(2,auto)}.hp-controls .wide{grid-column:1/-1}.targets{grid-template-columns:1fr}header{padding:12px}h1{font-size:2.7rem}}@media print{body{background:#fff}.shell{box-shadow:none;padding:0;background:#fff}.no-print,.actions,.hp-controls,dialog{display:none!important}.print-only{display:block}.card{break-inside:avoid;background:#fff;box-shadow:none}.grid{display:block}.log{max-height:none;overflow:visible}}
+</style>
 </head>
 <body>
-
-<div class="page">
-
-  <div class="ribbon-rail hide-print" role="group" aria-label="Rules edition">
-    <button class="ribbon-tab" data-edition="2014">Original<br>Rules (2014)</button>
-    <button class="ribbon-tab" data-edition="2024">Revised<br>Rules (2024)</button>
-  </div>
-
-  <p class="eyebrow hide-print">Wondrous Item &nbsp;·&nbsp; Very Rare &nbsp;·&nbsp; No Attunement Required</p>
-
-  <svg class="item-icon hide-print" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect x="18" y="38" width="64" height="46" fill="none" stroke="#2a1d12" stroke-width="2.5"/>
-    <path d="M18 38 L28 20 L72 20 L82 38 Z" fill="none" stroke="#2a1d12" stroke-width="2.5"/>
-    <line x1="18" y1="38" x2="82" y2="38" stroke="#2a1d12" stroke-width="2.5"/>
-    <circle cx="50" cy="58" r="11" fill="none" stroke="#6e1f1f" stroke-width="2"/>
-    <line x1="50" y1="51" x2="50" y2="65" stroke="#6e1f1f" stroke-width="2"/>
-    <line x1="43" y1="58" x2="57" y2="58" stroke="#6e1f1f" stroke-width="2"/>
-    <path d="M28 20 L34 8 M72 20 L66 8" stroke="#8a6a24" stroke-width="2" stroke-dasharray="3 3"/>
-  </svg>
-
-  <h1 class="title">Cleric in a Box</h1>
-  <p class="subtitle hide-print">A gift from the divine, for the party too stubborn to keep a healer at the table.</p>
-
-  <p class="stat-line hide-print"><strong>Type:</strong> a reinforced field chest, roughly the size of a modified bag of holding<br>
-  <strong>Origin:</strong> bestowed directly by the campaign's highest deity<br>
-  <strong>Durability:</strong> cannot be damaged, destroyed, stolen, opened, or countered by anyone but its divine giver</p>
-
-  <hr class="divider">
-
-  <p class="flavor drop-cap hide-print">The box arrived without a note. It only ever needed one line, and the deity never bothered to write it: <em>you will not lose a party to an empty healer's chair again.</em></p>
-
-  <div class="hide-print">
-  <h2 class="section-title">What It Does</h2>
-  <ul class="rules-list">
-    <li><strong>On combat start,</strong> the box falls to the ground and springs open on its own — no action required from anyone.</li>
-    <li><strong>When a player drops low,</strong> the box hits them with a healing potion as a free action. No roll, no cost, no one's turn spent.</li>
-    <li><strong>If the party needs a specific cleric spell</strong> instead of raw healing, the box produces the scroll and reads it aloud itself — see the cost note below the dial.</li>
-    <li><strong>On a long rest,</strong> the box's daily allowance refreshes completely, same as a cleric regaining spell slots. A rest of at least 4 hours works if anyone in the party can rest faster; otherwise the usual 8 hours applies.</li>
-    <li><strong>Nothing players or monsters do can affect the box</strong> — not the potions inside it, not its healing math, not its ability to keep functioning. Only its divine giver can alter or revoke it.</li>
-  </ul>
-  </div>
-
-  <div class="hide-print">
-  <h2 class="section-title">Set the Party's Level</h2>
-  <p>The box's healer is exactly as strong as your table needs. Turn the dial to your party's average level and the current rules edition to see today's healing allowance.</p>
-  </div>
-
-  <div class="dial-frame hide-print">
-    <label class="dial-label" for="level-dial">Average party level</label>
-    <div class="dial-row">
-      <select id="level-dial">
-        <!-- populated 1-20 -->
-      </select>
-      <span class="dial-readout">Level <span id="level-readout">1</span></span>
-      <span class="dial-readout" id="edition-readout" style="font-size:1rem;"></span>
-    </div>
-  </div>
-
-  <div class="results-grid hide-print">
-    <div class="result-card">
-      <span class="result-number" id="potion-count">–</span>
-      <span class="result-label">Potions per day</span>
-    </div>
-    <div class="result-card">
-      <span class="result-number" id="potion-size">–</span>
-      <span class="result-label">Avg. HP per potion</span>
-    </div>
-    <div class="result-card">
-      <span class="result-number" id="pool-total">–</span>
-      <span class="result-label">Total HP pool / day</span>
-    </div>
-  </div>
-
-  <details class="breakdown-box hide-print">
-    <summary>Show the underlying slot-by-slot math</summary>
-    <ul id="breakdown-list"></ul>
-    <p class="note">The box is modeled as a cleric of this level who spends every spell slot on the strongest single-target healing available (Cure Wounds, upgrading to Heal at 6th-level slots and above), then smooths that day's total into equal-sized potions.</p>
-  </details>
-
-  <p class="note hide-print" id="scroll-cost-note"></p>
-
-  <h2 class="section-title">Full Reference Table (Levels 1–20)</h2>
-
-  <div class="print-only">
-    <p><strong>Cleric in a Box — Healing &amp; Scroll Reference</strong><br>
-    Ruleset: <span id="print-edition-label"></span> &nbsp;·&nbsp; Party level: <span id="print-level-label"></span> (highlighted row)<br>
-    A drawn scroll costs potions equal to its own spell level.</p>
-  </div>
-
-  <p>Your current level is highlighted below. Highest-level scroll is the strongest spell the box can draw at that level — remember a scroll costs potions equal to its own spell level.</p>
-
-  <button class="print-btn hide-print" id="print-btn">🖨 Print / Save as PDF</button>
-
-  <div class="table-scroll">
-    <table id="full-table">
-      <thead>
-        <tr>
-          <th>Level</th>
-          <th>Potions / day</th>
-          <th>Avg HP / potion</th>
-          <th>Total HP pool</th>
-          <th>Highest scroll</th>
-        </tr>
-      </thead>
-      <tbody id="full-table-body"></tbody>
-    </table>
-  </div>
-
-  <h2 class="section-title">Today's Tracking Sheet</h2>
-  <p>At your current level, the box carries <strong id="tracking-total">–</strong> potions for the day. Tick one box each time it heals someone. If it draws a scroll instead, tick off boxes equal to that spell's level (a 3rd-level spell scroll = 3 boxes) — the box is drawing from the same daily supply either way. All boxes refresh on your next long rest.</p>
-
-  <button class="print-btn hide-print" id="reset-tracker-btn">↺ Reset for a new day</button>
-
-  <div class="tracking-sheet" id="tracking-sheet"></div>
-
-  <div class="hide-print">
-  <h2 class="section-title">Assumptions Baked Into the Math</h2>
-  <ul class="rules-list">
-    <li>Spellcasting modifier assumed: +3 at levels 1–3, +4 at levels 4–7, +5 at levels 8 and up (typical Wisdom progression with two ASIs invested).</li>
-    <li>2014 rules: Cure Wounds/Healing Word use 1d8 (or 1d4) per spell level. 2024 rules: dice are doubled per the revised Player's Handbook.</li>
-    <li>6th-level slots and higher are spent on Heal (70 hp + 10 per slot level above 6th) rather than an upcast Cure Wounds, since it's strictly better.</li>
-    <li>A drawn scroll costs a number of potions equal to that spell's level — a homebrew conversion, not official rules text. Adjust <code>ASSUMPTIONS</code> in <code>script.js</code> if your table wants different numbers.</li>
-  </ul>
-  </div>
-
-  <footer class="page-footer hide-print">Homebrew magic item · for personal table use</footer>
-
+<div class="shell">
+<header><div class="artifact">Unique Artifact</div><h1>Cleric <span>in a Box</span></h1><p class="subtitle">A semi-sentient divine party tracker that administers healing, reads cleric scrolls, and remembers every charge spent.</p><div class="status"><i id="dot" class="dot waiting"></i><span id="connectionText">Not connected</span></div></header>
+<main id="app"></main>
 </div>
-
-<script src="script.js"></script>
+<dialog id="healDialog"><form method="dialog" class="modal-grid"><h2>Divine Healing</h2><label>Target<select id="healTarget"></select></label><div id="healChoices"></div><button class="btn ghost" value="cancel">Close</button></form></dialog>
+<dialog id="scrollDialog"><form method="dialog" class="modal-grid"><h2>Use a Cleric Scroll</h2><label>Exact spell level<select id="scrollLevel"></select></label><label>Spell<select id="scrollSpell"></select></label><div id="scrollTargets" class="targets"></div><div class="notice">No upcasting: a spell can use only a charge of its printed level.</div><button id="castScroll" type="button" class="btn">The Box Reads the Scroll</button><button class="btn ghost" value="cancel">Close</button></form></dialog>
 <script>
-  const dial = document.getElementById('level-dial');
-  for (let i = 1; i <= 20; i++) {
-    const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = `Level ${i}`;
-    dial.appendChild(opt);
-  }
+'use strict';
+const SLOTS={1:[2],2:[3],3:[4,2],4:[4,3],5:[4,3,2],6:[4,3,3],7:[4,3,3,1],8:[4,3,3,2],9:[4,3,3,3,1],10:[4,3,3,3,2],11:[4,3,3,3,2,1],12:[4,3,3,3,2,1],13:[4,3,3,3,2,1,1],14:[4,3,3,3,2,1,1],15:[4,3,3,3,2,1,1,1],16:[4,3,3,3,2,1,1,1],17:[4,3,3,3,2,1,1,1,1],18:[4,3,3,3,3,1,1,1,1],19:[4,3,3,3,3,2,1,1,1],20:[4,3,3,3,3,2,2,1,1]};
+const POTIONS={healing:{name:'Potion of Healing',formula:'2d4+2'},greater:{name:'Greater Healing Potion',formula:'4d4+4'},superior:{name:'Superior Healing Potion',formula:'8d4+8'},supreme:{name:'Supreme Healing Potion',formula:'10d4+20'}};
+const LOW={0:['Guidance','Light','Mending','Resistance','Sacred Flame','Spare the Dying','Thaumaturgy'],1:['Bane','Bless','Command','Create or Destroy Water','Cure Wounds','Detect Evil and Good','Detect Magic','Detect Poison and Disease','Guiding Bolt','Healing Word','Inflict Wounds','Protection from Evil and Good','Purify Food and Drink','Sanctuary','Shield of Faith'],2:['Aid','Augury','Blindness/Deafness','Calm Emotions','Continual Flame','Enhance Ability','Find Traps','Gentle Repose','Hold Person','Lesser Restoration','Locate Object','Prayer of Healing','Protection from Poison','Silence','Spiritual Weapon','Warding Bond','Zone of Truth'],3:['Animate Dead','Beacon of Hope','Bestow Curse','Clairvoyance','Create Food and Water','Daylight','Dispel Magic','Glyph of Warding','Magic Circle','Mass Healing Word','Meld into Stone','Protection from Energy','Remove Curse','Revivify','Sending','Speak with Dead','Spirit Guardians','Tongues','Water Walk'],4:['Banishment','Control Water','Death Ward','Divination','Freedom of Movement','Guardian of Faith','Locate Creature','Stone Shape']};
+const HIGH={5:['Commune','Contagion','Dispel Evil and Good','Flame Strike','Geas','Greater Restoration','Hallow','Insect Plague','Legend Lore','Mass Cure Wounds','Planar Binding','Raise Dead','Scrying'],6:['Blade Barrier','Create Undead','Find the Path','Forbiddance','Harm','Heal','Heroes’ Feast','Planar Ally','True Seeing','Word of Recall'],7:['Conjure Celestial','Divine Word','Etherealness','Fire Storm','Plane Shift','Regenerate','Resurrection','Symbol'],8:['Antimagic Field','Control Weather','Earthquake','Holy Aura'],9:['Astral Projection','Gate','Mass Heal','True Resurrection']};
+const SPELLS_2014={...LOW,...HIGH};const SPELLS_2024=JSON.parse(JSON.stringify(SPELLS_2014));SPELLS_2024[4]=['Aura of Life',...SPELLS_2024[4]];SPELLS_2024[6].push('Sunbeam');SPELLS_2024[8].push('Sunburst');
+let peer=null,hostConn=null,connections=[],isHost=false,state=null,roomCode='',displayName='Player';
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+function safe(fn,fallback=null){try{return fn()}catch(e){console.error(e);toast(e.message||'Something went wrong.');return fallback}}
+function tier(level){return level===1?'healing':level<=3?'greater':level<=6?'superior':'supreme'}
+function makeCharges(level){const out=[];(SLOTS[level]||SLOTS[1]).forEach((qty,i)=>{for(let n=1;n<=qty;n++)out.push({id:`L${i+1}-${n}`,level:i+1,potion:tier(i+1),spent:false,usedAs:null,detail:null})});return out}
+function newState(data){return{version:1,campaign:data.campaign||'Cleric in a Box',deity:data.deity||'The Highest Deity',ruleset:Number(data.ruleset)||2014,level:Number(data.level)||1,characters:[],charges:makeCharges(Number(data.level)||1),log:[],createdAt:Date.now()}}
+function save(){if(isHost&&roomCode&&state)localStorage.setItem(`cleric-box-${roomCode}`,JSON.stringify(state))}
+function load(code){try{return JSON.parse(localStorage.getItem(`cleric-box-${code}`)||'null')}catch(e){console.error(e);return null}}
+function code(){const a='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';const v=new Uint32Array(6);crypto.getRandomValues(v);for(const n of v)s+=a[n%a.length];return s}
+function hostId(c){return `cleric-in-a-box-${c.toLowerCase()}`}
+function setConnection(text,kind='waiting'){$('#connectionText').textContent=text;$('#dot').className=`dot ${kind}`}
+function toast(msg){let t=document.createElement('div');t.textContent=msg;t.style='position:fixed;z-index:99;left:50%;bottom:20px;transform:translateX(-50%);background:#281713;color:#fff4ce;padding:12px 18px;border:1px solid #d4a64c;border-radius:8px;max-width:90vw;box-shadow:0 8px 30px #0008';document.body.append(t);setTimeout(()=>t.remove(),3200)}
+function setupView(){return `<section class="card setup"><div class="mode-tabs"><button class="btn" id="newTab">Create Party</button><button class="btn secondary" id="joinTab">Join Party</button></div><div id="newPane"><h2>Awaken the Unique Artifact</h2><div class="form-grid"><label>Campaign<input id="campaign" value="My Campaign"></label><label>Granting deity<input id="deity" placeholder="DM-controlled deity"></label><label>Rules<select id="ruleset"><option>2014</option><option>2024</option></select></label><label>Average party level<select id="level">${Array.from({length:20},(_,i)=>`<option>${i+1}</option>`).join('')}</select></label></div><button class="btn gold" id="create" style="width:100%;margin-top:14px">Open Cleric in a Box</button></div><div id="joinPane" class="hidden"><h2>Join the Party Box</h2><div class="form-grid"><label>Your name<input id="joinName" placeholder="Chris"></label><label>Six-character room code<input id="joinCode" maxlength="6" autocomplete="off"></label></div><button class="btn secondary" id="join" style="width:100%;margin-top:14px">Connect to the Box</button></div><div class="notice"><b>Shared phone mode:</b> the DM’s browser is the host and must remain open during play. The connection is peer-to-peer and encrypted.</div></section>`}
+function inventory(){const counts={healing:0,greater:0,superior:0,supreme:0};state.charges.filter(c=>!c.spent).forEach(c=>counts[c.potion]++);return counts}
+function maxSpellLevel(){return Math.max(0,...state.charges.filter(c=>!c.spent).map(c=>c.level))}
+function trackerView(){const inv=inventory();return `<div class="grid"><section class="card party"><h2>Party Health</h2><div class="room no-print"><span class="room-code">${roomCode}</span><button class="mini" data-copy>Copy join link</button>${isHost?'<button class="mini" data-add>Add character</button>':''}</div><p><b>${esc(state.campaign)}</b> · Level ${state.level} · ${state.ruleset} rules</p><div id="characters">${state.characters.length?state.characters.map(characterCard).join(''):'<p class="empty">The DM has not added any characters yet.</p>'}</div><div class="actions no-print"><button class="btn" data-heal ${state.characters.length?'':'disabled'}>Healing</button><button class="btn secondary" data-scroll ${maxSpellLevel()?'':'disabled'}>Use Scroll</button><button class="btn ghost" onclick="print()">Print Tracker</button></div></section><aside class="card box"><div class="box-art">🧰✨</div><h2>Today’s Divine Supply</h2><div class="inventory">${Object.entries(POTIONS).map(([id,p])=>`<div class="potion"><span><b>${p.name}</b>${p.formula}</span><span class="count">${inv[id]}</span></div>`).join('')}</div><h3>Exact-Level Scroll Charges</h3><div class="charges">${state.charges.map(c=>`<span class="charge ${c.spent?'spent':''}" title="${c.detail||''}">${c.level}</span>`).join('')}</div>${isHost?'<div class="actions no-print"><button class="btn gold" data-rest>Complete Long Rest</button><button class="btn ghost" data-settings>Change Level</button></div>':''}<div class="artifact-rules"><b>Unique Artifact.</b> Semi-sentient; administers potions and reads its own scrolls as a free action. Area healing requires a scroll. It cannot be stolen, suppressed, banished, destroyed, or separated from the party by any force. Only the specific deity that granted it—controlled by the DM—can affect it.</div></aside><section class="card history"><h2>Adventuring-Day History</h2><ul class="log">${state.log.length?state.log.slice().reverse().map(l=>`<li><time>${new Date(l.time).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</time><br>${esc(l.text)}</li>`).join(''):'<li class="empty">No resources have been used today.</li>'}</ul></section></div>`}
+function characterCard(c){const pct=Math.max(0,Math.min(100,(c.current/c.max)*100));return `<div class="character"><div class="char-head"><span class="char-name">${esc(c.name)}</span><b>${c.current} / ${c.max} HP</b></div><div class="hpbar"><span style="width:${pct}%"></span></div><div class="hp-controls no-print"><input class="wide" type="number" min="1" value="1" aria-label="HP amount" data-hp-amount="${c.id}"><button class="mini" data-hp="${c.id}" data-delta="-1">− HP</button><button class="mini" data-hp="${c.id}" data-delta="1">+ HP</button>${isHost?`<button class="mini" data-edit="${c.id}">Edit</button><button class="mini" data-remove="${c.id}">Remove</button>`:''}</div></div>`}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function render(){safe(()=>{$('#app').innerHTML=state?trackerView():setupView();bind();setConnection(state?(isHost?`Hosting ${roomCode}`:'Connected to party'):'Not connected',state?'online':'waiting')})}
+function bind(){if(!state){$('#newTab').onclick=()=>{$('#newPane').classList.remove('hidden');$('#joinPane').classList.add('hidden')};$('#joinTab').onclick=()=>{$('#joinPane').classList.remove('hidden');$('#newPane').classList.add('hidden')};$('#create').onclick=createParty;$('#join').onclick=joinParty;return}$$('[data-copy]').forEach(b=>b.onclick=copyLink);$$('[data-add]').forEach(b=>b.onclick=addCharacter);$$('[data-heal]').forEach(b=>b.onclick=openHeal);$$('[data-scroll]').forEach(b=>b.onclick=openScroll);$$('[data-rest]').forEach(b=>b.onclick=()=>sendAction({type:'rest'}));$$('[data-settings]').forEach(b=>b.onclick=changeSettings);$$('[data-hp]').forEach(b=>b.onclick=e=>{const id=e.currentTarget.dataset.hp,dir=Number(e.currentTarget.dataset.delta),amount=Number($(`[data-hp-amount="${id}"]`).value)||1;sendAction({type:'hp',id,delta:dir*amount})});$$('[data-edit]').forEach(b=>b.onclick=e=>editCharacter(e.currentTarget.dataset.edit));$$('[data-remove]').forEach(b=>b.onclick=e=>{if(confirm('Remove this character?'))sendAction({type:'removeCharacter',id:e.currentTarget.dataset.remove})})}
+function createParty(){safe(()=>{roomCode=code();displayName='DM';state=newState({campaign:$('#campaign').value,deity:$('#deity').value,ruleset:$('#ruleset').value,level:$('#level').value});isHost=true;save();startHost()})}
+function startHost(){setConnection('Opening the box…');peer=new Peer(hostId(roomCode));peer.on('open',()=>{setConnection(`Hosting ${roomCode}`,'online');history.replaceState({},'',`${location.pathname}?host=${roomCode}`);render()});peer.on('connection',conn=>{connections.push(conn);conn.on('open',()=>conn.send({type:'state',state,roomCode}));conn.on('data',data=>handleRemote(data,conn));conn.on('close',()=>connections=connections.filter(c=>c!==conn))});peer.on('error',e=>{console.error(e);if(e.type==='unavailable-id'){roomCode=code();save();peer.destroy();startHost()}else setConnection(`Connection error: ${e.type}`)})}
+function joinParty(){safe(()=>{displayName=$('#joinName').value.trim()||'Player';roomCode=$('#joinCode').value.trim().toUpperCase();if(roomCode.length!==6)throw new Error('Enter the six-character room code.');setConnection('Connecting…');peer=new Peer();peer.on('open',()=>{hostConn=peer.connect(hostId(roomCode),{reliable:true});hostConn.on('open',()=>{hostConn.send({type:'hello',name:displayName});setConnection('Connected','online')});hostConn.on('data',data=>{if(data.type==='state'){state=data.state;render()}if(data.type==='error')toast(data.message)});hostConn.on('close',()=>setConnection('Host disconnected','waiting'))});peer.on('error',e=>setConnection(`Connection error: ${e.type}`))})}
+function handleRemote(data,conn){if(data?.type==='hello'){conn.metadata={name:data.name};conn.send({type:'state',state,roomCode});return}if(data?.type==='action')applyAction(data.action,data.name||'Player',conn)}
+function broadcast(){save();render();connections.filter(c=>c.open).forEach(c=>c.send({type:'state',state,roomCode}))}
+function sendAction(action){if(isHost)applyAction(action,'DM');else if(hostConn?.open)hostConn.send({type:'action',action,name:displayName});else toast('The DM host is not connected.')}
+function applyAction(a,actor,conn){safe(()=>{if(!a||!a.type)return;if(a.type==='hp'){const c=state.characters.find(x=>x.id===a.id);if(!c)throw new Error('Character not found.');const before=c.current;c.current=Math.max(0,Math.min(c.max,c.current+Number(a.delta)));log(`${actor} adjusted ${c.name}: ${before} → ${c.current} HP.`)}else if(a.type==='addCharacter'){if(actor!=='DM')throw new Error('Only the DM can add characters.');state.characters.push({id:crypto.randomUUID(),name:a.name,max:a.max,current:a.current})}else if(a.type==='editCharacter'){if(actor!=='DM')throw new Error('Only the DM can edit characters.');const c=state.characters.find(x=>x.id===a.id);Object.assign(c,{name:a.name,max:a.max,current:Math.min(a.current,a.max)})}else if(a.type==='removeCharacter'){if(actor!=='DM')throw new Error('Only the DM can remove characters.');state.characters=state.characters.filter(x=>x.id!==a.id)}else if(a.type==='potion')usePotion(a,actor);else if(a.type==='scroll')useScroll(a,actor);else if(a.type==='rest'){if(actor!=='DM')throw new Error('Only the DM can complete a long rest.');state.charges=makeCharges(state.level);state.log=[];log('The party completed a long rest. The unique artifact restored every divine charge.')}else if(a.type==='settings'){if(actor!=='DM')throw new Error('Only the DM can change the box.');state.level=a.level;state.ruleset=a.ruleset;state.charges=makeCharges(state.level);log(`The granting deity reset the box to level ${state.level} using ${state.ruleset} rules.`)}broadcast()})}
+function log(text){state.log.push({time:Date.now(),text})}
+function rollFormula(formula){const m=String(formula).replace(/WIS/g,String(wis())).match(/^(\d+)d(\d+)(?:\+(\d+))?$/);if(!m)throw new Error(`Unsupported dice formula: ${formula}`);const n=+m[1],d=+m[2],bonus=+(m[3]||0),rolls=[];for(let i=0;i<n;i++){const v=new Uint32Array(1);crypto.getRandomValues(v);rolls.push(v[0]%d+1)}return{rolls,bonus,total:rolls.reduce((a,b)=>a+b,0)+bonus}}
+function wis(){return state.level<4?3:state.level<8?4:5}
+function usePotion(a,actor){const target=state.characters.find(c=>c.id===a.targetId);if(!target)throw new Error('Choose a healing target.');const charge=state.charges.filter(c=>!c.spent&&c.potion===a.potion).sort((x,y)=>x.level-y.level)[0];if(!charge)throw new Error('That potion type is exhausted.');const r=rollFormula(POTIONS[a.potion].formula),before=target.current;target.current=Math.min(target.max,target.current+r.total);charge.spent=true;charge.usedAs='potion';charge.detail=`${POTIONS[a.potion].name} on ${target.name}`;log(`${actor} asked the box to heal ${target.name}. ${POTIONS[a.potion].name} rolled ${r.rolls.join(' + ')}${r.bonus?` + ${r.bonus}`:''} = ${r.total}; HP ${before} → ${target.current}. Consumed a ${ordinal(charge.level)}-level charge.`)}
+function healingMeta(name){const r=String(state.ruleset);const common={Aid:{mode:'aid',amount:5},Revivify:{mode:'set',amount:1},'Raise Dead':{mode:'set',amount:1},Regenerate:{mode:'roll',formula:'4d8+15'},'Mass Heal':{mode:'pool',amount:700},Resurrection:{mode:'full'},'True Resurrection':{mode:'full'},Heal:{mode:'setadd',amount:70}};const edition=r==='2024'?{'Cure Wounds':{mode:'roll',formula:'2d8+WIS'},'Healing Word':{mode:'roll',formula:'2d4+WIS'},'Prayer of Healing':{mode:'many',formula:'2d8'},'Mass Healing Word':{mode:'many',formula:'2d4+WIS'},'Mass Cure Wounds':{mode:'many',formula:'5d8+WIS'}}:{'Cure Wounds':{mode:'roll',formula:'1d8+WIS'},'Healing Word':{mode:'roll',formula:'1d4+WIS'},'Prayer of Healing':{mode:'many',formula:'2d8+WIS'},'Mass Healing Word':{mode:'many',formula:'1d4+WIS'},'Mass Cure Wounds':{mode:'many',formula:'3d8+WIS'}};return edition[name]||common[name]||null}
+function useScroll(a,actor){const charge=state.charges.find(c=>!c.spent&&c.level===Number(a.level));if(!charge)throw new Error(`No ${ordinal(a.level)}-level charge remains. No upcasting is allowed.`);const spells=(state.ruleset===2024?SPELLS_2024:SPELLS_2014)[a.level]||[];if(!spells.includes(a.spell))throw new Error('That spell is not available at the selected exact level.');const targets=(a.targets||[]).map(id=>state.characters.find(c=>c.id===id)).filter(Boolean),meta=healingMeta(a.spell),results=[];if(meta){if(!targets.length)throw new Error('Choose at least one target for this healing spell.');if(meta.mode==='roll'||meta.mode==='many'){const r=rollFormula(meta.formula);targets.forEach(t=>{const before=t.current;t.current=Math.min(t.max,t.current+r.total);results.push(`${t.name} ${before}→${t.current}`)});results.unshift(`rolled ${r.total}`)}else if(meta.mode==='setadd'){targets.slice(0,1).forEach(t=>{const before=t.current;t.current=Math.min(t.max,t.current+meta.amount);results.push(`${t.name} ${before}→${t.current}`)})}else if(meta.mode==='set'){targets.slice(0,1).forEach(t=>{const before=t.current;t.current=meta.amount;results.push(`${t.name} ${before}→${t.current}`)})}else if(meta.mode==='full'){targets.slice(0,1).forEach(t=>{const before=t.current;t.current=t.max;results.push(`${t.name} ${before}→${t.current}`)})}else if(meta.mode==='aid'){targets.slice(0,3).forEach(t=>{t.max+=5;t.current+=5;results.push(`${t.name} max/current +5`)})}else if(meta.mode==='pool'){let remaining=meta.amount;const damaged=targets.filter(t=>t.current<t.max);damaged.forEach((t,i)=>{const share=i===damaged.length-1?remaining:Math.floor(remaining/(damaged.length-i)),gain=Math.min(share,t.max-t.current),before=t.current;t.current+=gain;remaining-=gain;results.push(`${t.name} ${before}→${t.current}`)})}}charge.spent=true;charge.usedAs='scroll';charge.detail=a.spell;log(`${actor} chose ${a.spell}. The box produced and read the ${ordinal(a.level)}-level scroll as a free action.${results.length?' '+results.join('; ')+'.':''} Removed one ${POTIONS[charge.potion].name} from the pile.`)}
+function ordinal(n){n=Number(n);return n+(n===1?'st':n===2?'nd':n===3?'rd':'th')}
+function copyLink(){const url=`${location.origin}${location.pathname}?join=${roomCode}`;navigator.clipboard?.writeText(url).then(()=>toast('Join link copied.')).catch(()=>prompt('Copy this link:',url))}
+function addCharacter(){const name=prompt('Character name:');if(!name)return;const max=Math.max(1,Number(prompt('Maximum HP:','50'))||50),current=Math.max(0,Math.min(max,Number(prompt('Current HP:',String(max)))||max));sendAction({type:'addCharacter',name,max,current})}
+function editCharacter(id){const c=state.characters.find(x=>x.id===id);const name=prompt('Character name:',c.name);if(!name)return;const max=Math.max(1,Number(prompt('Maximum HP:',c.max))||c.max),current=Math.max(0,Math.min(max,Number(prompt('Current HP:',c.current))||c.current));sendAction({type:'editCharacter',id,name,max,current})}
+function changeSettings(){const level=Math.max(1,Math.min(20,Number(prompt('New average party level (1–20):',state.level))||state.level)),ruleset=Number(prompt('Ruleset: 2014 or 2024',state.ruleset))===2024?2024:2014;if(confirm('Changing level or rules resets all remaining box charges. Continue?'))sendAction({type:'settings',level,ruleset})}
+function openHeal(){const inv=inventory();$('#healTarget').innerHTML=state.characters.map(c=>`<option value="${c.id}">${esc(c.name)} — ${c.current}/${c.max}</option>`).join('');$('#healChoices').innerHTML=Object.entries(POTIONS).map(([id,p])=>`<div class="choice"><b>${p.name}</b> · ${p.formula} · ${inv[id]} remaining <button type="button" class="mini" data-use-potion="${id}" ${inv[id]?'':'disabled'}>Roll & Heal</button></div>`).join('');$$('[data-use-potion]').forEach(b=>b.onclick=()=>{sendAction({type:'potion',potion:b.dataset.usePotion,targetId:$('#healTarget').value});$('#healDialog').close()});$('#healDialog').showModal()}
+function openScroll(){const levels=[...new Set(state.charges.filter(c=>!c.spent).map(c=>c.level))].sort((a,b)=>a-b);$('#scrollLevel').innerHTML=levels.map(l=>`<option value="${l}">${ordinal(l)} level</option>`).join('');updateScrollSpells();$('#scrollLevel').onchange=updateScrollSpells;$('#scrollSpell').onchange=updateScrollTargets;$('#castScroll').onclick=()=>{const targets=$$('#scrollTargets input:checked').map(x=>x.value);sendAction({type:'scroll',level:Number($('#scrollLevel').value),spell:$('#scrollSpell').value,targets});$('#scrollDialog').close()};$('#scrollDialog').showModal()}
+function updateScrollSpells(){const level=Number($('#scrollLevel').value),spells=(state.ruleset===2024?SPELLS_2024:SPELLS_2014)[level]||[];$('#scrollSpell').innerHTML=spells.map(s=>`<option>${esc(s)}</option>`).join('');updateScrollTargets()}
+function updateScrollTargets(){const meta=healingMeta($('#scrollSpell').value);$('#scrollTargets').innerHTML=meta?state.characters.map(c=>`<label class="target-check"><input type="checkbox" value="${c.id}">${esc(c.name)} (${c.current}/${c.max})</label>`).join(''):'<p class="notice">This spell does not directly change tracked HP. The box will spend the exact-level charge and record the cast.</p>'}
+window.addEventListener('beforeunload',()=>{try{peer?.destroy()}catch(e){console.error(e)}});
+(function boot(){const p=new URLSearchParams(location.search),host=p.get('host'),join=p.get('join');if(host){roomCode=host.toUpperCase();state=load(roomCode);if(state){isHost=true;displayName='DM';startHost();render();return}}render();if(join){$('#joinTab').click();$('#joinCode').value=join.toUpperCase()}})();
 </script>
 </body>
 </html>
