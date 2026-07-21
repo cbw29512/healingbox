@@ -39,6 +39,27 @@
     </form>
   </dialog>
 
+  <dialog id="settingsDialog">
+    <form method="dialog" class="modal-grid">
+      <h2>Artifact Spellcasting</h2>
+      <p>These are DM-controlled homebrew values. Changing them does not restore or spend any charges.</p>
+      <div class="form-grid">
+        <label>Wisdom modifier
+          <input id="settingsWisdomMod" type="number" min="-5" max="10">
+        </label>
+        <label>Spell save DC
+          <input id="settingsSaveDc" type="number" min="1" max="40">
+        </label>
+        <label>Spell attack bonus
+          <input id="settingsAttackBonus" type="number" min="-5" max="20">
+        </label>
+      </div>
+      <div id="settingsRulesNote" class="preview"></div>
+      <button id="saveSettings" type="button" class="btn gold">Save Artifact Settings</button>
+      <button class="btn ghost" value="cancel">Cancel</button>
+    </form>
+  </dialog>
+
   <script>
   (()=>{
     const params=new URLSearchParams(location.search),room=(params.get('host')||'').toUpperCase();
@@ -46,7 +67,7 @@
     const key=`cleric-box-${room}`;
     try{
       const old=JSON.parse(localStorage.getItem(key)||'null');
-      if(!old||old.version===2&&Array.isArray(old.charges))return;
+      if(!old||old.version>=2&&Array.isArray(old.charges))return;
       const table={1:[2],2:[3],3:[4,2],4:[4,3],5:[4,3,2],6:[4,3,3],7:[4,3,3,1],8:[4,3,3,2],9:[4,3,3,3,1],10:[4,3,3,3,2],11:[4,3,3,3,2,1],12:[4,3,3,3,2,1],13:[4,3,3,3,2,1,1],14:[4,3,3,3,2,1,1],15:[4,3,3,3,2,1,1,1],16:[4,3,3,3,2,1,1,1],17:[4,3,3,3,2,1,1,1,1],18:[4,3,3,3,3,1,1,1,1],19:[4,3,3,3,3,2,1,1,1],20:[4,3,3,3,3,2,2,1,1]};
       const level=Math.max(1,Math.min(20,Number(old.level||old.partyLevel||1))),charges=[];
       (table[level]||table[1]).forEach((qty,index)=>{const spellLevel=index+1,potion=spellLevel===1?'healing':spellLevel<=3?'greater':spellLevel<=6?'superior':'supreme';for(let number=1;number<=qty;number++)charges.push({id:`L${spellLevel}-${number}`,level:spellLevel,number,potion,spent:false,usedAs:null,result:null,actor:null,time:null})});
@@ -54,6 +75,6 @@
     }catch(error){console.error(error);localStorage.removeItem(key)}
   })();
   </script>
-  <script src="script.js"></script>
+  <script type="module" src="app-v3.js"></script>
 </body>
 </html>
