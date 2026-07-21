@@ -41,36 +41,110 @@ export const SPELLS = Object.freeze({
   })
 });
 
+// Automatic rolls are base-slot results only because the artifact forbids upcasting.
+// Notes preserve the minimum edition-specific information needed to interpret the roll.
 export const EFFECTS = Object.freeze({
-  'Cure Wounds':{kind:'healing',f2014:'1d8+WIS',f2024:'2d8+WIS',note:'healing'},
-  'Healing Word':{kind:'healing',f2014:'1d4+WIS',f2024:'2d4+WIS',note:'healing'},
-  'Guiding Bolt':{kind:'damage',formula:'4d6',note:'radiant damage on a hit',resolution:'spell attack'},
-  'Inflict Wounds':{kind:'damage',f2014:'3d10',f2024:'2d10',note2014:'necrotic damage on a melee spell attack',note2024:'necrotic damage on a failed Constitution save; half on success'},
-  'Aid':{kind:'fixed',amount:5,note:'current and maximum HP increase for each target'},
-  'Prayer of Healing':{kind:'healing',f2014:'2d8+WIS',f2024:'2d8',note2014:'healing to each eligible target',note2024:'healing to each eligible target, plus the spell’s Short Rest benefit'},
-  'Spiritual Weapon':{kind:'damage',formula:'1d8+WIS',note:'force damage on a hit',resolution:'spell attack'},
-  'Glyph of Warding':{kind:'damage',formula:'5d8',note:'damage for an explosive rune'},
-  'Mass Healing Word':{kind:'healing',f2014:'1d4+WIS',f2024:'2d4+WIS',note:'healing to each eligible target'},
-  'Revivify':{kind:'fixed',amount:1,note:'HP restored'},
-  'Spirit Guardians':{kind:'damage',formula:'3d8',note:'damage when the spell affects a creature'},
-  'Guardian of Faith':{kind:'fixed',amount:20,note:'radiant damage per failed save'},
-  'Flame Strike':{kind:'damage',formula:'8d6',note:'combined fire and radiant damage'},
-  'Insect Plague':{kind:'damage',formula:'4d10',note:'piercing damage per failed save'},
-  'Mass Cure Wounds':{kind:'healing',f2014:'3d8+WIS',f2024:'5d8+WIS',note:'healing to each eligible target'},
-  'Raise Dead':{kind:'fixed',amount:1,note:'HP restored'},
-  'Blade Barrier':{kind:'damage',formula:'6d10',note:'slashing damage per failed save'},
-  'Harm':{kind:'damage',formula:'14d6',note:'necrotic damage; apply the spell’s normal limits'},
-  'Heal':{kind:'fixed',amount:70,note:'HP restored'},
-  'Sunbeam':{kind:'damage',formula:'6d8',note:'radiant damage per failed save'},
-  'Fire Storm':{kind:'damage',formula:'7d10',note:'fire damage per failed save'},
-  'Regenerate':{kind:'healing',formula:'4d8+15',note:'initial healing; ongoing healing follows the spell'},
-  'Resurrection':{kind:'full',note:'target returns with full HP'},
-  'Sunburst':{kind:'damage',formula:'12d6',note:'radiant damage per failed save'},
-  'Mass Heal':{kind:'fixed',amount:700,note:'HP distributed among eligible creatures'},
-  'True Resurrection':{kind:'full',note:'target returns with full HP'}
+  'Cure Wounds':{
+    kind:'healing',f2014:'1d8+WIS',f2024:'2d8+WIS',
+    note2014:'healing to one touched creature; no effect on Undead or Constructs',
+    note2024:'healing to one touched creature'
+  },
+  'Healing Word':{
+    kind:'healing',f2014:'1d4+WIS',f2024:'2d4+WIS',
+    note2014:'healing to one visible creature; no effect on Undead or Constructs',
+    note2024:'healing to one visible creature'
+  },
+  'Guiding Bolt':{
+    kind:'damage',formula:'4d6',note:'Radiant damage on a hit; the next attack roll against the target before the end of your next turn has Advantage',resolution:'ranged spell attack'
+  },
+  'Inflict Wounds':{
+    kind:'damage',f2014:'3d10',f2024:'2d10',
+    note2014:'Necrotic damage on a hit',note2024:'Necrotic damage on a failed save; half on a successful save',
+    resolution2014:'melee spell attack',resolution2024:'Constitution saving throw'
+  },
+  'Aid':{
+    kind:'fixed',amount:5,note:'current and maximum HP increase for each of up to three targets for 8 hours'
+  },
+  'Prayer of Healing':{
+    kind:'healing',f2014:'2d8+WIS',f2024:'2d8',
+    note2014:'healing to up to six creatures after a 10-minute casting; no effect on Undead or Constructs',
+    note2024:'healing to up to five creatures after a 10-minute casting; each also gains the benefits of a Short Rest and cannot benefit again until a Long Rest'
+  },
+  'Spiritual Weapon':{
+    kind:'damage',formula:'1d8+WIS',note2014:'Force damage on a hit; no Concentration',note2024:'Force damage on a hit; Concentration, up to 1 minute',
+    resolution:'melee spell attack',concentration2014:false,concentration2024:true
+  },
+  'Glyph of Warding':{
+    kind:'damage',formula:'5d8',note:'Acid, Cold, Fire, Lightning, or Thunder damage for an explosive rune; half on a successful save',resolution:'Dexterity saving throw'
+  },
+  'Mass Healing Word':{
+    kind:'healing',f2014:'1d4+WIS',f2024:'2d4+WIS',
+    note2014:'healing to up to six visible creatures; no effect on Undead or Constructs',note2024:'healing to up to six visible creatures'
+  },
+  'Revivify':{
+    kind:'fixed',amount:1,note:'HP restored to a creature that died within the spell’s time limit; material component and body restrictions still apply'
+  },
+  'Spirit Guardians':{
+    kind:'damage',formula:'3d8',
+    note2014:'Radiant or Necrotic damage on a failed Wisdom save, half on success; triggers the first time a creature enters the area on a turn or starts its turn there; Concentration',
+    note2024:'Radiant or Necrotic damage on a failed Wisdom save, half on success; triggers when the emanation enters a creature’s space, a creature enters it, or a creature ends its turn there, no more than once per turn; Concentration',
+    resolution:'Wisdom saving throw',concentration:true
+  },
+  'Guardian of Faith':{
+    kind:'fixed',amount:20,note:'Radiant damage on a failed Dexterity save, 10 on a successful save; the guardian vanishes after dealing 60 total damage',resolution:'Dexterity saving throw'
+  },
+  'Flame Strike':{
+    kind:'damage',f2014:'8d6',f2024:'10d6',
+    note2014:'4d6 Fire plus 4d6 Radiant damage on a failed save, half on success',
+    note2024:'5d6 Fire plus 5d6 Radiant damage on a failed save, half on success',
+    resolution:'Dexterity saving throw'
+  },
+  'Insect Plague':{
+    kind:'damage',formula:'4d10',note:'Piercing damage on a failed Constitution save, half on success; the area is difficult terrain and lightly obscured; Concentration',resolution:'Constitution saving throw',concentration:true
+  },
+  'Mass Cure Wounds':{
+    kind:'healing',f2014:'3d8+WIS',f2024:'5d8+WIS',
+    note2014:'healing to up to six creatures in the area; no effect on Undead or Constructs',note2024:'healing to up to six creatures in the area'
+  },
+  'Raise Dead':{
+    kind:'fixed',amount:1,note:'HP restored; the 1-hour casting, 10-day limit, material component, body restrictions, and post-resurrection penalties still apply'
+  },
+  'Blade Barrier':{
+    kind:'damage',formula:'6d10',
+    note2014:'Slashing damage on a failed Dexterity save, half on success; triggers when a creature first enters on a turn or starts its turn there; Concentration',
+    note2024:'Force damage on a failed Dexterity save, half on success; triggers in the wall, on entry, or when ending a turn there, no more than once per turn; Concentration',
+    resolution:'Dexterity saving throw',concentration:true
+  },
+  'Harm':{
+    kind:'damage',formula:'14d6',note:'Necrotic damage on a failed Constitution save, half on success; on a failure the target’s Hit Point maximum is reduced by the damage taken, to a minimum of 1',resolution:'Constitution saving throw'
+  },
+  'Heal':{
+    kind:'fixed',amount:70,note2014:'HP restored; also ends blindness, deafness, and disease',note2024:'HP restored; also ends the Blinded, Deafened, and Poisoned conditions'
+  },
+  'Sunbeam':{
+    kind:'damage',formula:'6d8',note:'Radiant damage on a failed Constitution save, half on success; failure also causes Blinded until the start of your next turn; Concentration',resolution:'Constitution saving throw',concentration:true
+  },
+  'Fire Storm':{
+    kind:'damage',formula:'7d10',note2014:'Fire damage on a failed Dexterity save, half on success; the caster may spare plant life',note2024:'Fire damage on a failed Dexterity save, half on success; flammable unattended objects ignite',resolution:'Dexterity saving throw'
+  },
+  'Regenerate':{
+    kind:'healing',formula:'4d8+15',note:'initial healing; the target also regains 1 HP at the start of each turn for the duration and severed body parts can regrow'
+  },
+  'Resurrection':{
+    kind:'full',note:'target returns with all HP; the 1-hour casting, century limit, material component, soul requirements, post-resurrection penalties, and caster strain still apply'
+  },
+  'Sunburst':{
+    kind:'damage',formula:'12d6',note2014:'Radiant damage on a failed Constitution save, half on success; failure also causes Blinded for 1 minute, with repeat saves; Undead and Oozes have Disadvantage on the initial save',note2024:'Radiant damage on a failed Constitution save, half on success; failure also causes Blinded for 1 minute, with repeat saves',resolution:'Constitution saving throw'
+  },
+  'Mass Heal':{
+    kind:'fixed',amount:700,note2014:'HP divided among visible creatures; also cures diseases and effects causing blindness or deafness; no effect on Undead or Constructs',note2024:'HP divided among visible creatures; also removes Blinded, Deafened, and Poisoned'
+  },
+  'True Resurrection':{
+    kind:'full',note:'target returns with all HP; the 1-hour casting, 200-year limit, material component, cause-of-death restriction, and soul requirements still apply'
+  }
 });
 
 export const RULES_METADATA = Object.freeze({
-  2014:{label:'2014 Basic Rules',verified:'2026-07-22'},
-  2024:{label:'2024 Free Rules',verified:'2026-07-22'}
+  2014:{label:'5e (2014) Basic Rules',verified:'2026-07-21',source:'https://www.dndbeyond.com/sources/dnd/basic-rules-2014/spells'},
+  2024:{label:'5.5e (2024) Free Rules',verified:'2026-07-21',source:'https://www.dndbeyond.com/sources/dnd/br-2024/spell-descriptions'}
 });
