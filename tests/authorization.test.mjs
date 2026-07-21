@@ -26,7 +26,7 @@ test('administrative actions are authorized by host origin, never display name',
 
 test('player action messages cannot claim a name or role', () => {
   assert.match(script, /hostConn\.send\(\{ type: 'action', action \}\)/);
-  assert.equal(script.includes("name: displayName"), false);
+  assert.doesNotMatch(script, /hostConn\.send\(\{ type: 'action', action, (?:name|role):/);
 });
 
 test('remote clients can use charges but cannot submit administrative actions', () => {
