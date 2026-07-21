@@ -39,6 +39,21 @@
     </form>
   </dialog>
 
+  <script>
+  (()=>{
+    const params=new URLSearchParams(location.search),room=(params.get('host')||'').toUpperCase();
+    if(!room)return;
+    const key=`cleric-box-${room}`;
+    try{
+      const old=JSON.parse(localStorage.getItem(key)||'null');
+      if(!old||old.version===2&&Array.isArray(old.charges))return;
+      const table={1:[2],2:[3],3:[4,2],4:[4,3],5:[4,3,2],6:[4,3,3],7:[4,3,3,1],8:[4,3,3,2],9:[4,3,3,3,1],10:[4,3,3,3,2],11:[4,3,3,3,2,1],12:[4,3,3,3,2,1],13:[4,3,3,3,2,1,1],14:[4,3,3,3,2,1,1],15:[4,3,3,3,2,1,1,1],16:[4,3,3,3,2,1,1,1],17:[4,3,3,3,2,1,1,1,1],18:[4,3,3,3,3,1,1,1,1],19:[4,3,3,3,3,2,1,1,1],20:[4,3,3,3,3,2,2,1,1]};
+      const level=Math.max(1,Math.min(20,Number(old.level||old.partyLevel||1))),charges=[];
+      (table[level]||table[1]).forEach((qty,index)=>{const spellLevel=index+1,potion=spellLevel===1?'healing':spellLevel<=3?'greater':spellLevel<=6?'superior':'supreme';for(let number=1;number<=qty;number++)charges.push({id:`L${spellLevel}-${number}`,level:spellLevel,number,potion,spent:false,usedAs:null,result:null,actor:null,time:null})});
+      localStorage.setItem(key,JSON.stringify({version:2,campaign:old.campaign||old.campaignName||'My Campaign',deity:old.deity||old.deityName||'DM-controlled deity',ruleset:Number(old.ruleset)||2014,level,charges,log:[],createdAt:Date.now()}));
+    }catch(error){console.error(error);localStorage.removeItem(key)}
+  })();
+  </script>
   <script src="script.js"></script>
 </body>
 </html>
