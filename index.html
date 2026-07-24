@@ -19,13 +19,32 @@
   <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
 </head>
 <body>
+  <nav class="dmforge-nav" aria-label="DM Forge navigation">
+    <a class="dmforge-nav__brand" href="https://cbw29512.github.io/monstercardforge/"><span aria-hidden="true">⚒</span> DM Forge</a>
+    <div class="dmforge-nav__links">
+      <a href="https://cbw29512.github.io/monstercardforge/campaigns.html">Campaign Hub</a>
+      <a href="https://cbw29512.github.io/monstercardforge/rules-compendium.html">Rules &amp; Cards</a>
+      <a href="https://cbw29512.github.io/monstercardforge/session-console.html">Session Console</a>
+    </div>
+  </nav>
+
   <div class="shell">
     <header>
-      <div class="kicker">Unique Artifact</div>
+      <div class="kicker">DM Forge party support</div>
       <h1>Cleric <span>in a Box</span></h1>
-      <p class="subtitle">The party’s shared healing-potion and exact-level cleric-scroll tracker. It rolls the dice, records the result, and greys out each divine charge when spent.</p>
+      <p class="subtitle">The DM creates one shared box. Players join with a six-character room code, then spend equal-size divine-charge cards as healing potions or exact-level cleric scrolls.</p>
       <div class="status"><i id="dot" class="dot"></i><span id="connectionText">Not connected</span></div>
     </header>
+
+    <section class="role-guide" aria-labelledby="role-guide-title">
+      <h2 id="role-guide-title">Start here</h2>
+      <div class="role-guide__grid">
+        <div><span>1</span><strong>DM creates the box</strong><small>Choose the campaign, rules version, party level, and artifact values.</small></div>
+        <div><span>2</span><strong>Players join</strong><small>Share the room code or player link. The DM browser stays open.</small></div>
+        <div><span>3</span><strong>Use one charge</strong><small>Pick Roll Healing or Choose Scroll. Used cards clearly grey out.</small></div>
+      </div>
+    </section>
+
     <main id="app"></main>
   </div>
 
