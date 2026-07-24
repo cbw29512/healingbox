@@ -1,0 +1,121 @@
+.spell-reference-card {
+  display: grid;
+  gap: 0.85rem;
+  color: #2d1c14;
+  text-align: left;
+}
+
+.spell-reference-card > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgb(91 55 30 / 24%);
+}
+
+.spell-reference-card > header div {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.spell-reference-card > header span,
+.spell-reference-facts span,
+.spell-reference-source {
+  color: #6d5848;
+  font-size: 0.72rem;
+}
+
+.spell-reference-card > header strong {
+  color: #6b241e;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+}
+
+.spell-reference-ruleset {
+  padding: 0.25rem 0.45rem;
+  border: 1px solid #9b7040;
+  border-radius: 999px;
+  background: #f2dfb3;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.spell-reference-facts {
+  display: grid;
+  gap: 0.55rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.spell-reference-facts div {
+  display: grid;
+  min-width: 0;
+  padding: 0.6rem;
+  border: 1px solid rgb(91 55 30 / 18%);
+  border-radius: 0.55rem;
+  background: rgb(255 248 226 / 66%);
+  gap: 0.2rem;
+}
+
+.spell-reference-facts strong {
+  overflow-wrap: anywhere;
+}
+
+.spell-reference-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.spell-reference-tags span {
+  padding: 0.26rem 0.5rem;
+  border: 1px solid #9c7b4b;
+  border-radius: 999px;
+  background: #ead5a6;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.spell-reference-automatic,
+.spell-reference-effect {
+  padding: 0.75rem;
+  border-left: 4px solid #7c2b22;
+  background: rgb(124 43 34 / 7%);
+}
+
+.spell-reference-effect {
+  border-left-color: #315b70;
+  background: rgb(49 91 112 / 7%);
+}
+
+.spell-reference-automatic p,
+.spell-reference-effect p {
+  margin: 0.35rem 0 0;
+  line-height: 1.48;
+}
+
+.spell-reference-source a {
+  color: #5b2d69;
+  font-weight: 800;
+}
+
+.spell-reference-card > footer {
+  padding-top: 0.65rem;
+  border-top: 1px solid rgb(91 55 30 / 24%);
+  color: #5e4637;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 560px) {
+  .spell-reference-card > header {
+    display: grid;
+  }
+
+  .spell-reference-ruleset {
+    width: max-content;
+  }
+
+  .spell-reference-facts {
+    grid-template-columns: 1fr;
+  }
+}
