@@ -16,6 +16,11 @@ test('Cleric in a Box has a clear return path into DM Forge', () => {
   assert.equal(html.includes('Session Console'), true);
 });
 
+test('Cleric in a Box links back to the Light Tower Guild project hub', () => {
+  assert.equal(html.includes('https://lighttowertabletopguild.netlify.app/tools.html'), true);
+  assert.equal(html.includes('Light Tower Guild Hub'), true);
+});
+
 test('Cleric in a Box uses equal-size responsive charge cards', () => {
   assert.equal(css.includes('grid-auto-rows:1fr'), true);
   assert.equal(css.includes('.charge-card{height:100%;min-height:190px'), true);
