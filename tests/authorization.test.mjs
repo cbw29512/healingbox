@@ -42,7 +42,7 @@ test('primary assets exist and the page launches through the canonical migration
   assert.equal(html.includes('type="module" src="boot.js"'), true);
   assert.equal(html.includes('type="module" src="app-v3.js"'), false);
   assert.equal(html.includes('src="/monstercardforge/shared/dmforge-store.js"'), true);
-  assert.equal(html.includes('src="dmforge-adapter.js"'), true);
+  assert.match(html, /src="dmforge-adapter\.js\?v=[^"]+"/);
   assert.equal(html.includes('id="settingsDialog"'), true);
   const boot = readFileSync(join(root, 'boot.js'), 'utf8');
   assert.equal(boot.includes("import { SLOTS } from './rules-data.js'"), true);
