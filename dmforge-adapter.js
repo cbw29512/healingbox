@@ -3,6 +3,8 @@
 
   const hubUrl = '/monstercardforge/campaigns.html';
   let lastRoomSnapshot = '';
+  // Store writes synchronously emit dmforge:store-changed back into this adapter.
+  let syncing = false;
 
   function ensureStyles() {
     if (document.getElementById('dmforgeHealingContextStyles')) return;
@@ -70,6 +72,9 @@
   }
 
   function sync() {
+    if (syncing) return;
+    syncing = true;
+    try {
     const store = root.DMForgeStore;
     if (!store) return;
     prefillCampaign();
@@ -93,6 +98,11 @@
     store.ensureCampaign(name, { source: 'cleric-in-a-box' });
     if (!store.getActiveCampaign()) store.setActiveCampaign(name);
     renderContext();
+    } catch (error) {
+      console.error('[HealingBoxAdapter] Campaign synchronization failed', error);
+    } finally {
+      syncing = false;
+    }
   }
 
   document.addEventListener('input', (event) => {
